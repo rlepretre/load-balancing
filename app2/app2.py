@@ -2,15 +2,11 @@ from flask import request, Flask
 import json
 
 app2 = Flask(__name__)
-@app2.route('/doubleOp')
-def doubleOp():
-    x = int(request.args.get('x', 1))
-    return json.dumps({'x': x * 2})
 
 
 @app2.route('/')
 def hello_world():
-    return 'Hello doubleOp'
+    return ' Salam alikom, this is App2 :)'
 
 
 if __name__ == '__main__':

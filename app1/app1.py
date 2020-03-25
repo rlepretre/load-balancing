@@ -3,16 +3,11 @@ import json
 
 
 app1 = Flask(__name__)
-@app1.route('/halfOp')
-def halfOp():
-    x = int(request.args.get('x', 1))
-    return json.dumps({'x': x * 0.5})
-
 
 
 @app1.route('/')
 def hello_world():
-    return 'Hello halfOp'
+    return 'Salam alikom, this is App1 :) '
 
 
 if __name__ == '__main__':
