@@ -16,21 +16,10 @@ def mandelbrot():
     output = stream.read().split(",")
 
     response = jsonify({
-        "output": output,
         "isMandelbrot": output[0],
         "iterations": output[1],
         "app": 2
     })
-    # if output[0] == 0:
-    #     response = {
-    #         "isMandelbrot": True,
-    #         "iterations": output[1]
-    #     }
-    # if output[0] == 1:
-    #     response = {
-    #         "isMandelbrot": False,
-    #         "iterations": output[1]
-    #     }
     response.headers.add('Access-Control-Allow-Origin', '*')
     return response
 

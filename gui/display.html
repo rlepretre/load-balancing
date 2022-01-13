@@ -12,18 +12,18 @@
 	axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
 	axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
 
-	const scaling = 0.02;
-	const size = 75;
+	const res = 1;
+	const scaling = 0.01 / res;
+	const size = 100 * res;
 	let z = [];
 	let promises = [];
 
 	for (let i = -size; i <= size; i++) {
 		z.push([])
-		for (let j = -size; j <= size; j++) {
+		for (let j = -size - (size / 2); j <= size - (size / 2); j++) {
 			promises.push(
-				axios.get('/mandelbrot?real=' + i * scaling + '&imag=' + j * scaling)
+				axios.get('/mandelbrot?real=' + j * scaling + '&imag=' + i * scaling)
 					.then(function (response) {
-						console.log(response.data.iterations);
 						z[i + size].push(response.data.iterations);
 					})
 			)
@@ -31,14 +31,26 @@
 	}
 
 	Promise.all(promises).then(() => {
-		console.log(z);
+		// console.log(z);
 		TESTER = document.getElementById('tester');
 
 		Plotly.newPlot(TESTER, [{
 
 			z: z,
 
-			type: 'heatmap'
+			type: 'heatmap',
+
+			xtype: "scaled",
+
+			ytype: "scaled",
+
+			x0: (-size - (size / 2)) * scaling,
+
+			y0: -size * scaling,
+
+			dx: res,
+
+			dy: res,
 
 		}], {
 
