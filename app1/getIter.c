@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 
     int count, max;
     float temp, lengthsq;
-    max = 1000;
+    max = 100;
     z.real = 0;
     z.imag = 0;
     count = 0; /* number of iterations */

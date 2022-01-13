@@ -15,11 +15,12 @@ def mandelbrot():
     stream = os.popen("./getIter " + real + " " + imag)
     output = stream.read().split(",")
 
-    response = {
+    response = jsonify({
         "output": output,
         "isMandelbrot": output[0],
-        "iterations": output[1]
-    }
+        "iterations": output[1],
+        "app": 1
+    })
     # if output[0] == 0:
     #     response = {
     #         "isMandelbrot": True,
@@ -30,8 +31,8 @@ def mandelbrot():
     #         "isMandelbrot": False,
     #         "iterations": output[1]
     #     }
-
-    return jsonify(response)
+    response.headers.add('Access-Control-Allow-Origin', '*')
+    return response
 
 
 if __name__ == '__main__':

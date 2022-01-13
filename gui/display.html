@@ -1,0 +1,48 @@
+<head>
+	<script src="plotly-2.8.3.min.js"></script>
+	<script src="axios.min.js"></script>
+</head>
+
+<div id="output"></div>
+
+<div id="tester" style="width:600px;height:250px;"></div>
+
+<script>
+	axios.defaults.baseURL = 'http://localhost:8080';
+	axios.defaults.headers.post['Content-Type'] = 'application/json;charset=utf-8';
+	axios.defaults.headers.post['Access-Control-Allow-Origin'] = '*';
+
+	const scaling = 0.02;
+	const size = 75;
+	let z = [];
+	let promises = [];
+
+	for (let i = -size; i <= size; i++) {
+		z.push([])
+		for (let j = -size; j <= size; j++) {
+			promises.push(
+				axios.get('/mandelbrot?real=' + i * scaling + '&imag=' + j * scaling)
+					.then(function (response) {
+						console.log(response.data.iterations);
+						z[i + size].push(response.data.iterations);
+					})
+			)
+		}
+	}
+
+	Promise.all(promises).then(() => {
+		console.log(z);
+		TESTER = document.getElementById('tester');
+
+		Plotly.newPlot(TESTER, [{
+
+			z: z,
+
+			type: 'heatmap'
+
+		}], {
+
+			margin: { t: 0 }
+		});
+	})
+</script>
